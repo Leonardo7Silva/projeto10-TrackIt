@@ -1,24 +1,20 @@
 import styled from "styled-components"
-import Topper from "./Topper"
-import Footer from "./footer"
-import CriadorDeHabito from "./criadorDeHabito"
+import Topper from "./habitos/Topper"
+import Footer from "./habitos/footer"
 
 
-export default function Habitos({resposta}){
-    const perfil = resposta.image
- 
+export default function Historico(){
+    const perfil = "https://criticalhits.com.br/wp-content/uploads/2021/09/Screenshot-2021-09-02-at-04-12-18-Genshin-Impact-Aloy-jpg-JPEG-Image-1280-%C3%97-720-pixels.png"
+
     return (
         <>
-        {console.log(resposta.image)}
         <Fundo>
             <Topper perfil={perfil}/>
             <ConteudoAplicacao>
             <div>
-                <p>Meus hábitos</p>
-                <button><p>+</p></button>
+                <p>Histórico</p>
             </div>
-            <CriadorDeHabito/>
-            <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
+            <p>Em breve você poderá ver o histórico dos seus hábitos aqui!</p>
             </ConteudoAplicacao>
             <Footer/>
         </Fundo>
