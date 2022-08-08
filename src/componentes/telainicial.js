@@ -23,7 +23,7 @@ function TelaInicial({resposta, setResposta}){
         })
 
         requisicao.then((res)=> {setResposta(res.data); navigate("/hoje")});
-        requisicao.catch((res) => Alert(`Deu ruim! código ${res.status}`));
+        requisicao.catch((res) => alert(`Deu ruim! código ${res.status}`));
     }
 
 
