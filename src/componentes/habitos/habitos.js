@@ -1,24 +1,97 @@
 import styled from "styled-components"
 import Topper from "./Topper"
 import Footer from "./footer"
-import CriadorDeHabito from "./criadorDeHabito"
+import {CriadorDeHabito} from "./criadorDeHabito"
+import { useEffect, useState } from "react"
+import HabitoExistente from "./habitoExistente"
+import axios from "axios"
 
 
-export default function Habitos({resposta}){
-    const perfil = resposta.image
- 
+export default function Habitos(){
+    const [aparecerCriacao, setAparecerCriacao] = useState(false)
+    const auth = JSON.parse(localStorage.getItem("trackit"));
+    const perfil = auth.image;
+    const [nome,setNome] = useState("");
+    const [days, setDays] = useState([]);
+    const [habitos, setHabitos] = useState([])
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${auth.token}`
+        }
+    }
+
+    function criarHabito(event){
+        event.preventDefault();
+        if (days.length === 0){
+           return alert("Marque pelo menos um dia!");
+        }
+
+        const body = {
+            name: nome,
+            days: days
+        }
+
+        const requisicao = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", body, config)
+        requisicao.then((res)=> {
+            let aux = [...habitos, res.data]
+            setHabitos(aux)
+            setDays([])
+            setAparecerCriacao(false)
+        })
+    }
+
+    function adicionarNumero(Number){
+        let aux = days.filter((value)=> value === Number)
+        if (aux.length === 0){
+            let aux3 = [...days, Number]
+            return setDays(aux3.sort());
+        }else { 
+            let aux2 = days.filter((value) => value !== Number)
+            return setDays(aux2);
+        }
+    }
+
+    function listarHabitos(){
+        const requisicao = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config)
+
+        requisicao.then(res=>{
+            let aux = res.data
+            setHabitos(aux)
+        })
+
+    }
+
+    useEffect(listarHabitos, [])
+
+    function deletarHabito(idDoDelete){
+        const requisicao = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idDoDelete}`,config)
+        requisicao.then(()=>listarHabitos())
+    }
+    
+
+
     return (
         <>
-        {console.log(resposta.image)}
+        {console.log(habitos)}
         <Fundo>
             <Topper perfil={perfil}/>
             <ConteudoAplicacao>
             <div>
                 <p>Meus hábitos</p>
-                <button><p>+</p></button>
+                <button onClick={()=> setAparecerCriacao(true) }><p>+</p></button>
             </div>
-            <CriadorDeHabito/>
-            <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
+            {aparecerCriacao ? <CriadorDeHabito 
+            setAparecerCriacao={setAparecerCriacao}
+            setNome={setNome}
+            adicionarNumero={adicionarNumero}
+            criarHabito={criarHabito}
+            /> : ""}
+
+            { habitos.length === 0 ? <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p> :
+            habitos.map((value,index)=><HabitoExistente key={index} id={value.id} habitos={value.days} titulo={value.name} deletarHabito={deletarHabito}/>)}
+            
+            
+            
             </ConteudoAplicacao>
             <Footer/>
         </Fundo>

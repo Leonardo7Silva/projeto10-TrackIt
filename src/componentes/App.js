@@ -3,11 +3,15 @@ import TelaInicial from "./telainicial"
 import TelaCadastro from "./telaCadastro"
 import Habitos from "../componentes/habitos/habitos.js"
 import Historico from "./historico"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 export default function App(){
     const [resposta, setResposta] = useState({})
+
+    useEffect(()=>{
+        localStorage.setItem("trackit", JSON.stringify({...resposta, timeStamp: +new Date()}))
+    },[resposta])
 
     return (
     <>
@@ -15,7 +19,7 @@ export default function App(){
             <Routes>
                 <Route path="/" element={<TelaInicial setResposta={setResposta} resposta={resposta}/>}/>
                 <Route path="/cadastro" element={<TelaCadastro/>}/> 
-                <Route path="/habitos" element={<Habitos resposta={resposta}/>}/> 
+                <Route path="/habitos" element={<Habitos/>}/> 
                 <Route path="/historico" element={<Historico/>}/>   
             </Routes>
         </BrowserRouter>

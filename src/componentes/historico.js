@@ -4,7 +4,9 @@ import Footer from "./habitos/footer"
 
 
 export default function Historico(){
-    const perfil = "https://criticalhits.com.br/wp-content/uploads/2021/09/Screenshot-2021-09-02-at-04-12-18-Genshin-Impact-Aloy-jpg-JPEG-Image-1280-%C3%97-720-pixels.png"
+    
+    const auth = JSON.parse(localStorage.getItem("trackit"));
+    const perfil = auth.image
 
     return (
         <>

@@ -1,24 +1,27 @@
 import styled from "styled-components"
 import Dia from "./dia"
 
-export default function CriadorDeHabito(){
+function CriadorDeHabito({setAparecerCriacao, setNome, adicionarNumero, criarHabito}){
 
+    
 
 
     return(
         <>
             <Criacao>
-                <input type="text" placeholder="Nome do hábito" required></input>
+                <form onSubmit={criarHabito}>
+                <input type="text" placeholder="Nome do hábito" onChange={(e)=> setNome(e.target.value)} required></input>
                 <div className="dias">
-                    <Dia nome={"D"}/>
-                    <Dia nome={"S"}/>
-                    <Dia nome={"T"}/>
-                    <Dia nome={"Q"}/>
-                    <Dia nome={"Q"}/>
-                    <Dia nome={"S"}/>
-                    <Dia nome={"S"}/>
+                    <Dia nome={"D"} adicionarNumero={adicionarNumero} idL={0}/>
+                    <Dia nome={"S"} adicionarNumero={adicionarNumero} idL={1}/>
+                    <Dia nome={"T"} adicionarNumero={adicionarNumero} idL={2}/>
+                    <Dia nome={"Q"} adicionarNumero={adicionarNumero} idL={3}/>
+                    <Dia nome={"Q"} adicionarNumero={adicionarNumero} idL={4}/>
+                    <Dia nome={"S"} adicionarNumero={adicionarNumero} idL={5}/>
+                    <Dia nome={"S"} adicionarNumero={adicionarNumero} idL={6}/>
                 </div>
-                <Botoes><span><p>Cancelar</p></span> <button><p>Salvar</p></button></Botoes>
+                <Botoes><span><p onClick={() => setAparecerCriacao(false)}>Cancelar</p></span> <button type="submit"><p>Salvar</p></button></Botoes>
+                </form>
             </Criacao> 
         </>
     )
@@ -27,7 +30,7 @@ export default function CriadorDeHabito(){
 const Criacao = styled.div`
     width: 100%;
     height: auto;
-    
+    margin-bottom: 5vh;
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
@@ -112,6 +115,7 @@ const Botoes = styled.div`
         font-size: 15.976px;
         line-height: 20px;
         color: #52B6FF;
+        cursor: pointer;
     }
 
     button {
@@ -138,3 +142,5 @@ const Botoes = styled.div`
         text-decoration-line: none;
     }
 `
+
+export {CriadorDeHabito, Criacao};
