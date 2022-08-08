@@ -3,17 +3,18 @@ import Topper from "./Topper"
 import Footer from "./footer"
 import {CriadorDeHabito} from "./criadorDeHabito"
 import { useEffect, useState } from "react"
-import HabitoExistente from "./habitoExistente"
+import {HabitoExistente} from "./habitoExistente"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 
 export default function Habitos(){
     const [aparecerCriacao, setAparecerCriacao] = useState(false)
     const auth = JSON.parse(localStorage.getItem("trackit"));
-    const perfil = auth.image;
     const [nome,setNome] = useState("");
     const [days, setDays] = useState([]);
     const [habitos, setHabitos] = useState([])
+    const navigate = useNavigate;
     const config = {
         headers: {
             "Authorization": `Bearer ${auth.token}`
@@ -33,11 +34,14 @@ export default function Habitos(){
 
         const requisicao = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", body, config)
         requisicao.then((res)=> {
-            let aux = [...habitos, res.data]
-            setHabitos(aux)
-            setDays([])
-            setAparecerCriacao(false)
+            let aux = [...habitos, res.data];
+            setDays([]);
+            setNome("");
+            setHabitos(aux);
+            setAparecerCriacao(false);
         })
+
+        requisicao.catch((res) => {alert(`Deu ruim! Código: ${res.status}`)})
     }
 
     function adicionarNumero(Number){
@@ -53,7 +57,7 @@ export default function Habitos(){
 
     function listarHabitos(){
         const requisicao = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config)
-
+        setHabitos([])
         requisicao.then(res=>{
             let aux = res.data
             setHabitos(aux)
@@ -61,26 +65,30 @@ export default function Habitos(){
 
     }
 
-    useEffect(listarHabitos, [])
+   
 
     function deletarHabito(idDoDelete){
         const requisicao = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idDoDelete}`,config)
-        requisicao.then(()=>listarHabitos())
-    }
+        requisicao.then(()=> listarHabitos() )}
     
+    
+    useEffect(listarHabitos, [])
 
 
     return (
         <>
         {console.log(habitos)}
+        
         <Fundo>
-            <Topper perfil={perfil}/>
+            <Topper/>
             <ConteudoAplicacao>
             <div>
                 <p>Meus hábitos</p>
                 <button onClick={()=> setAparecerCriacao(true) }><p>+</p></button>
             </div>
-            {aparecerCriacao ? <CriadorDeHabito 
+            {aparecerCriacao ? <CriadorDeHabito
+            nome={nome}
+            days={days}
             setAparecerCriacao={setAparecerCriacao}
             setNome={setNome}
             adicionarNumero={adicionarNumero}
@@ -101,7 +109,7 @@ export default function Habitos(){
 
 const Fundo = styled.div`
     width: 100vw;
-    height: auto;
+    height: 130vh;
     min-height: 100vh;
     background-color: #f2f2f2;
 `

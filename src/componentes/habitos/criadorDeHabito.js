@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import Dia from "./dia"
 
-function CriadorDeHabito({setAparecerCriacao, setNome, adicionarNumero, criarHabito}){
+function CriadorDeHabito({setAparecerCriacao, setNome, adicionarNumero, criarHabito, days,nome}){
 
     
 
@@ -10,15 +10,15 @@ function CriadorDeHabito({setAparecerCriacao, setNome, adicionarNumero, criarHab
         <>
             <Criacao>
                 <form onSubmit={criarHabito}>
-                <input type="text" placeholder="Nome do hábito" onChange={(e)=> setNome(e.target.value)} required></input>
+                <input type="text" placeholder="Nome do hábito" value={nome} onChange={(e)=> setNome(e.target.value)} required></input>
                 <div className="dias">
-                    <Dia nome={"D"} adicionarNumero={adicionarNumero} idL={0}/>
-                    <Dia nome={"S"} adicionarNumero={adicionarNumero} idL={1}/>
-                    <Dia nome={"T"} adicionarNumero={adicionarNumero} idL={2}/>
-                    <Dia nome={"Q"} adicionarNumero={adicionarNumero} idL={3}/>
-                    <Dia nome={"Q"} adicionarNumero={adicionarNumero} idL={4}/>
-                    <Dia nome={"S"} adicionarNumero={adicionarNumero} idL={5}/>
-                    <Dia nome={"S"} adicionarNumero={adicionarNumero} idL={6}/>
+                    <Dia nome={"D"} adicionarNumero={adicionarNumero} idL={0} days={days}/>
+                    <Dia nome={"S"} adicionarNumero={adicionarNumero} idL={1} days={days}/>
+                    <Dia nome={"T"} adicionarNumero={adicionarNumero} idL={2} days={days}/>
+                    <Dia nome={"Q"} adicionarNumero={adicionarNumero} idL={3} days={days}/>
+                    <Dia nome={"Q"} adicionarNumero={adicionarNumero} idL={4} days={days}/>
+                    <Dia nome={"S"} adicionarNumero={adicionarNumero} idL={5} days={days}/>
+                    <Dia nome={"S"} adicionarNumero={adicionarNumero} idL={6} days={days}/>
                 </div>
                 <Botoes><span><p onClick={() => setAparecerCriacao(false)}>Cancelar</p></span> <button type="submit"><p>Salvar</p></button></Botoes>
                 </form>
@@ -143,4 +143,4 @@ const Botoes = styled.div`
     }
 `
 
-export {CriadorDeHabito, Criacao};
+export {CriadorDeHabito, Criacao, Botoes};

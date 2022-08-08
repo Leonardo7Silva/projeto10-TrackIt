@@ -1,7 +1,9 @@
 import styled from "styled-components"
 import logotipo from "../../assets/TrackIt.png"
 
-export default function Topper({perfil}){
+export default function Topper(){
+   const auth = JSON.parse(localStorage.getItem("trackit"));
+   const perfil = auth.image;
    return(
       <>
          <Top>
@@ -24,6 +26,7 @@ const Top = styled.div`
    position: fixed;
    top: 0;
    left: 0;
+   z-index: 1;
 
    img {
       width: 30%;

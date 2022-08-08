@@ -19,7 +19,7 @@ function TelaInicial({resposta, setResposta}){
             password: senha
         })
 
-        requisicao.then((res)=> {setResposta(res.data); navigate("/habitos")})
+        requisicao.then((res)=> {setResposta(res.data); navigate("/hoje")})
     }
 
 

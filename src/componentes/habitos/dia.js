@@ -1,7 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function Dia({nome, adicionarNumero, idL}){
-    const [marcador, SetMarcador] = useState("desmarcado");
+export default function Dia({nome, adicionarNumero, idL, days}){
+    const [marcador, setMarcador] = useState("desmarcado");
+
+    useEffect(()=>{
+        let aux = days.filter((value)=> value === idL)
+        if (aux.length !== 0){
+            setMarcador("marcado")
+        }},[])
 
     function enviarDia(){
         if (idL === 0){
@@ -26,9 +32,9 @@ export default function Dia({nome, adicionarNumero, idL}){
 
     function marcarDia(string){
         if(string === "desmarcado"){
-            return SetMarcador("marcado");
+            return setMarcador("marcado");
         } else if(string === "marcado"){
-            return SetMarcador("desmarcado");
+            return setMarcador("desmarcado");
         }
     }
 

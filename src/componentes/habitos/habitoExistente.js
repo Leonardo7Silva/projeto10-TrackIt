@@ -1,11 +1,14 @@
 import styled from "styled-components"
 import Dia2 from "./dia2"
+import { Botoes } from "./criadorDeHabito"
+import { useState } from "react"
 
-export default function HabitoExistente({habitos, titulo, deletarHabito, id}){
+function HabitoExistente({habitos, titulo, deletarHabito, id}){
+    const [confirmar, setConfirmar] = useState(true)
  return(<>
     <Criacao>
     <p>{titulo}</p>
-    <ion-icon name="trash-outline" onClick={()=>deletarHabito(id)} ></ion-icon>
+    <ion-icon name="trash-outline" onClick={()=>setConfirmar(false)} ></ion-icon>
     <div className="dias">
         <Dia2 nome={"D"} idL={0} habitos={habitos}/>
         <Dia2 nome={"S"} idL={1} habitos={habitos}/>
@@ -15,6 +18,11 @@ export default function HabitoExistente({habitos, titulo, deletarHabito, id}){
         <Dia2 nome={"S"} idL={5} habitos={habitos}/>
         <Dia2 nome={"S"} idL={6} habitos={habitos}/>
     </div>
+    { confirmar ? "" : 
+    <Botoes>
+        <span onClick={()=>{setConfirmar(true)}}><p>Cancelar</p></span> 
+        <button onClick={()=>{deletarHabito(id);setConfirmar(true)}}><p>Confirmar</p></button>
+    </Botoes> }
     </Criacao>
  </>)   
 }
@@ -77,3 +85,4 @@ const Criacao = styled.div`
         color: #dbdbdb; 
     }
 `
+export {Criacao, HabitoExistente}
